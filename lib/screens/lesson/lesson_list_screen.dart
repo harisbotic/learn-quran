@@ -17,47 +17,62 @@ class LessonListScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           var lessons = snapshot.data as List<Lesson>;
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Lessons'),
-            ),
-            body: ListView.builder(
-              itemCount: lessons.length,
-              itemBuilder: (context, index) {
-                var lesson = lessons[index];
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  child: ListTile(
-                    title: Row(
-                      children: [
-                        lesson.wordsLearned == lesson.totalWords
-                            ? FaIcon(FontAwesomeIcons.check,
-                                color: Colors.green)
-                            : SizedBox(
-                                width: 20,
-                              ),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        CircularPercentIndicator(
-                          radius: 10.0,
-                          lineWidth: 10.0,
-                          percent: lesson.wordsLearned / lesson.totalWords,
-                          progressColor: Colors.blue[300],
-                        ),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        Text(lesson.name,
-                            style: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
-                      ],
+          return Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Lessons',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: lessons.length,
+                  itemBuilder: (context, index) {
+                    var lesson = lessons[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 5),
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            lesson.wordsLearned == lesson.totalWords
+                                ? const FaIcon(FontAwesomeIcons.check,
+                                    color: Colors.green)
+                                : const SizedBox(
+                                    width: 20,
+                                  ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            CircularPercentIndicator(
+                              radius: 10.0,
+                              lineWidth: 10.0,
+                              percent: lesson.wordsLearned / lesson.totalWords,
+                              progressColor: Colors.blue[300],
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Text(lesson.name,
+                                style: const TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         });
   }

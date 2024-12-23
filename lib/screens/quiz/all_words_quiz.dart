@@ -24,41 +24,54 @@ class _AllWordsQuizState extends State<AllWordsQuiz> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<LearnExpMCQIterator>(
-        future: getMCQExpIterator(),
-        builder: (context, AsyncSnapshot<LearnExpMCQIterator> snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text(
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Text(
                 'Quiz',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              centerTitle: true,
-              elevation: 2,
-            ),
-            body: PageView.builder(
-              controller: controller,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, position) {
-                var learnExpMCQIterator = snapshot.data!;
-                if (!learnExpMCQIterator.moveNext()) return null;
-                MCQWordExperience exp = learnExpMCQIterator.current;
-                return Center(
+            ],
+          ),
+        ),
+        Expanded(
+          child: FutureBuilder<LearnExpMCQIterator>(
+            future: getMCQExpIterator(),
+            builder: (context, AsyncSnapshot<LearnExpMCQIterator> snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              return PageView.builder(
+                controller: controller,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, position) {
+                  var learnExpMCQIterator = snapshot.data!;
+                  if (!learnExpMCQIterator.moveNext()) return null;
+                  MCQWordExperience exp = learnExpMCQIterator.current;
+                  return Center(
                     child: MCQWidget(
-                  question: exp.getMCQ(),
-                  onComplete: (bool isCorrect) {
-                    controller.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.ease);
-                  },
-                ));
-              },
-            ),
-          );
-        });
+                      question: exp.getMCQ(),
+                      onComplete: (bool isCorrect) {
+                        controller.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

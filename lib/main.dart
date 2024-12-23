@@ -63,9 +63,9 @@ class MyApp extends StatelessWidget {
               ],
               supportedLocales: const [
                 Locale('en'), // English
-                Locale('bn'), // English
+                Locale('bn'), // Bengali Bangla
               ],
-              home: HomePageV2(),
+              home: const HomePageV2(),
             ),
           );
         });

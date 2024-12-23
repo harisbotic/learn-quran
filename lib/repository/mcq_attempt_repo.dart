@@ -28,7 +28,7 @@ class MCQAttemptRepo extends RepoBase {
   @override
   final log = Logger('MCQAttemptRepo');
 
-  recordAttempt(int wordId, isCorrect) async {
+  Future<void> recordAttempt(int wordId, bool isCorrect) async {
     const int lastConsecutiveCorrect = 1;
     log.info('recordAttempt: $wordId $isCorrect');
 

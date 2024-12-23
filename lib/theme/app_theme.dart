@@ -6,55 +6,12 @@ ThemeExtensionColors colors(context) =>
     Theme.of(context).extension<ThemeExtensionColors>()!;
 
 ThemeData getLightTheme() {
-  const lightColorScheme = ColorScheme(
-    brightness: Brightness.light,
-    primary: Color(0xFF694FA3),
-    onPrimary: Color(0xFFFFFFFF),
-    primaryContainer: Color(0xFFEADDFF),
-    onPrimaryContainer: Color(0xFF24005B),
-    secondary: Color(0xFF95416D),
-    onSecondary: Color(0xFFFFFFFF),
-    secondaryContainer: Color(0xFFFFD8E7),
-    onSecondaryContainer: Color(0xFF3D0026),
-    tertiary: Color(0xFF744B9E),
-    onTertiary: Color(0xFFFFFFFF),
-    tertiaryContainer: Color(0xFFEFDBFF),
-    onTertiaryContainer: Color(0xFF2B0052),
-    error: Color(0xFFBA1A1A),
-    errorContainer: Color(0xFFFFDAD6),
-    onError: Color(0xFFFFFFFF),
-    onErrorContainer: Color(0xFF410002),
-    background: Color(0xFFFFFBFF),
-    onBackground: Color(0xFF341100),
-    surface: Color(0xFFFFFBFF),
-    onSurface: Color(0xFF341100),
-    surfaceVariant: Color(0xFFE7E0EB),
-    onSurfaceVariant: Color(0xFF49454E),
-    outline: Color(0xFF7A757F),
-    onInverseSurface: Color(0xFFFFEDE6),
-    inverseSurface: Color(0xFF552000),
-    inversePrimary: Color(0xFFD1BCFF),
-    shadow: Color(0xFF1E1E1E),
-    surfaceTint: Color(0xFF694FA3),
-    outlineVariant: Color(0xFFCAC4CF),
-    scrim: Color(0xFF000000),
-  );
-
-  final ColorScheme schemeLight = SeedColorScheme.fromSeeds(
-    brightness: Brightness.light,
-    // Primary key color is required, like seed color ColorScheme.fromSeed.
-    primaryKey: Colors.blue,
-    // You can add optional own seeds for secondary and tertiary key colors.
-    secondaryKey: Colors.purple,
-    tertiaryKey: Colors.amber,
-    // Tone chroma config and tone mapping is optional, if you do not add it
-    // you get the config matching Flutter's Material 3 ColorScheme.fromSeed.
-    tones: FlexTones.vivid(Brightness.light),
-  );
-
   return ThemeData(
-    primaryColor: const Color(0xffF9EDD4),
-    colorScheme: schemeLight,
+    useMaterial3: true,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.green,
+      brightness: Brightness.light,
+    ),
     scaffoldBackgroundColor: const Color(0xffF6F6F6),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -66,8 +23,23 @@ ThemeData getLightTheme() {
     cardTheme: CardTheme(
       elevation: 8,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(12),
       ),
+      color: Colors.white,
+    ),
+    navigationBarTheme: NavigationBarThemeData(
+      indicatorColor: Colors.green.shade100,
+      labelTextStyle: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          );
+        }
+        return const TextStyle(
+          fontSize: 12,
+        );
+      }),
     ),
     extensions: <ThemeExtension<ThemeExtensionColors>>[
       ThemeExtensionColors(

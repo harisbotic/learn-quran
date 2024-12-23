@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:learnquran/screens/dashboard/dashboard_screen.dart';
+import 'package:learnquran/screens/lesson/lesson_list_screen.dart';
+import 'package:learnquran/screens/quiz/all_words_quiz.dart';
 
 class HomePageV2 extends StatefulWidget {
   const HomePageV2({super.key});
@@ -9,79 +12,61 @@ class HomePageV2 extends StatefulWidget {
 
 class _HomePageV2State extends State<HomePageV2> {
   int _selectedIndex = 0;
+
+  Widget _getCurrentScreen() {
+    switch (_selectedIndex) {
+      case 0:
+        return const DashboardScreen();
+      case 1:
+        return const AllWordsQuiz();
+      case 2:
+        return const LessonListScreen();
+      default:
+        return const DashboardScreen();
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  static const unselectedIconColor =
-      Color(0xFF757575); // Equivalent to Colors.grey[600]
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const SafeArea(
-          child: Padding(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 50),
-        child: Column(
-          children: [
-            Heading(),
-          ],
-        ),
-      )),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: unselectedIconColor),
+      body: SafeArea(
+        child: _getCurrentScreen(),
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedIndex,
+        onDestinationSelected: _onItemTapped,
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.lightbulb, color: unselectedIconColor),
+          NavigationDestination(
+            icon: Icon(Icons.lightbulb_outline),
+            selectedIcon: Icon(Icons.lightbulb),
             label: 'Quiz',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book, color: unselectedIconColor),
+          NavigationDestination(
+            icon: Icon(Icons.menu_book_outlined),
+            selectedIcon: Icon(Icons.menu_book),
             label: 'Learn',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark, color: unselectedIconColor),
+          NavigationDestination(
+            icon: Icon(Icons.bookmark_border),
+            selectedIcon: Icon(Icons.bookmark),
             label: 'Bookmark',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore, color: unselectedIconColor),
+          NavigationDestination(
+            icon: Icon(Icons.explore_outlined),
+            selectedIcon: Icon(Icons.explore),
             label: 'Explore',
           ),
-        ],
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green[500],
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class Heading extends StatelessWidget {
-  const Heading({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Salam,',
-            style: TextStyle(
-              fontSize: 32,
-            ),
-          ),
-          Icon(Icons.settings)
         ],
       ),
     );

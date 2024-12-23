@@ -76,7 +76,7 @@ class WordRepo extends RepoBase {
 
   markLearned(int wordId) async {
     await updateWord(wordId, {
-      columnLearned: true,
+      columnLearned: 1,
     });
 
     var word = await findWordById(wordId);
@@ -116,7 +116,7 @@ class WordRepo extends RepoBase {
           ($columnLastCorrectedAt is NULL
             OR $columnLastCorrectedAt < DATETIME('now', '-30 seconds'))
         """,
-        whereArgs: [false],
+        whereArgs: [0],
         orderBy: '$columnId ASC, $columnRead DESC',
         limit: limit);
     return records.map((record) => recordToWord(record)).toList();
